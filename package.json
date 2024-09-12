@@ -6,6 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "bin":{
+    "pass-gen":"./index.js"
+  },
+  "author": "Hiba Mohamed",
   "license": "MIT"
 }
