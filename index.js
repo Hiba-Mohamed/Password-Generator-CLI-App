@@ -22,14 +22,14 @@ const firstUserArgNumber = parseInt(firstUserArg);
 
 const createLowerCasePass = (length = 8) => {
   const alphabetsLower = "abcdefghijklmnopqrstuvwxyz";
-  let lowCasePass = ""
+  let lowCasePass = "";
   for (i = 0; i < length; i++) {
     const randomLetterIndex = Math.floor(Math.random() * 26);
-    const randomLetter = alphabetsLower[randomLetterIndex]
-    lowCasePass +=randomLetter
+    const randomLetter = alphabetsLower[randomLetterIndex];
+    lowCasePass += randomLetter;
   }
   console.log(alphabetsLower.length);
-  console.log(lowCasePass)
+  console.log(lowCasePass);
 };
 
 if (userArguments.length === 1 && isNaN(firstUserArgNumber)) {
@@ -49,6 +49,8 @@ if (userArguments.length === 1 && isNaN(firstUserArgNumber)) {
       console.log(
         "To start using the app, run (npx pass-gen 6 ) where '6' is the character length of your password"
       );
+    } else {
+      createLowerCasePass(userArguments)
     }
   }
 }
