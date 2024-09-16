@@ -18,14 +18,14 @@ console.log(
 );
 
 // console.log(userArguments);
-console.log(userArguments);
+console.log("from the global scope ", userArguments);
 const firstUserArg = userArguments[0];
 const firstUserArgNumber = parseInt(firstUserArg);
+let userArgsToBePassedToCustomPass = [];
 
 // validate user entries making sure they only contain an int, up, num, or sym
 const validateUserArguments = (userArguments) => {
-  console.log(userArguments);
-  let userArgsToBePassedToCustomPass = [];
+  console.log("from validate user args function", userArguments);
   const validEntriesArray = ["up", "num", "sym"];
   const numberEntryExists = userArguments.find((arg) => !isNaN(parseInt(arg)));
   const validNumberExists = numberEntryExists !== undefined;
@@ -36,28 +36,25 @@ const validateUserArguments = (userArguments) => {
     validEntriesArray.includes(entry)
   );
 
-  if (otherEntriesValid){
-
-  if (!validNumberExists) {
-    userArgsToBePassedToCustomPass.push(8);
+  if (otherEntriesValid) {
+    if (!validNumberExists) {
+      userArgsToBePassedToCustomPass.push(8);
+    } else {
+      userArgsToBePassedToCustomPass.push(parseInt(numberEntryExists));
+    }
+    if (userArguments.includes("up")) {
+      userArgsToBePassedToCustomPass.push("up");
+    }
+    if (userArguments.includes("num")) {
+      userArgsToBePassedToCustomPass.push("num");
+    }
+    if (userArguments.includes("sym")) {
+      userArgsToBePassedToCustomPass.push("sym");
+    }
+    return true;
   } else {
-    userArgsToBePassedToCustomPass.push(parseInt(numberEntryExists));
+    return false;
   }
-  if (userArguments.includes("up")) {
-    userArgsToBePassedToCustomPass.push("up");
-  }
-  if (userArguments.includes("num")) {
-    userArgsToBePassedToCustomPass.push("num");
-  }
-  if (userArguments.includes("sym")) {
-    userArgsToBePassedToCustomPass.push("sym");
-  }
-  createCustomPass(userArgsToBePassedToCustomPass)
-  }
-  else{
-    return false
-  }
-
 };
 
 // make a decision of the code customization
@@ -77,7 +74,7 @@ const createLowerCasePass = (length = 8) => {
 };
 
 const createCustomPass = (userArgs) => {
-  console.log("from custom pass function: ",userArgs)
+  console.log("from custom pass function: ", userArgs);
 };
 
 const displayInstructionsToUser = () => {
@@ -112,12 +109,16 @@ const displayInstructionsToUser = () => {
 
 const displayErrorMessage = () => {
   console.log("                                                           ");
-  console.log(`    Error      : Invalid entry, you enetered ${firstUserArg}  `);
-  console.log("                 as the characters length of your password.");
+  console.log(`    Error      : Invalid entry, you enetered an invalid entry `);
   console.log(
-    "    Quick fix  : Please enter a valid number after 'pass-gen' command."
+    "    Quick fix  : Please enter a valid entry after 'npx pass-gen' command."
   );
-  console.log("    For Help   : run 'pass-gen -h' command for more info.");
+  console.log(
+    "                 Only allowed entries are a number , 'up', 'num', 'sym'"
+  );
+  console.log(
+    "    For Help   : run 'npx pass-gen -h' command for more info about each entry."
+  );
   console.log("");
 };
 
@@ -134,15 +135,16 @@ if (
     createLowerCasePass(userArguments);
   } else {
     if (userArguments.length === 0) {
-      createLowerCasePass();
+      createLowerCasePass(8);
     } else {
       if (userArguments.length === 1 && userArguments[0] === "-h") {
         displayInstructionsToUser();
       } else {
-        if (!validateUserArguments) {
-          displayErrorMessage();
+        const valid = validateUserArguments(userArguments);
+        if (valid) {
+          createCustomPass(userArgsToBePassedToCustomPass);
         } else {
-          validateUserArguments(userArguments)
+          displayErrorMessage();
         }
       }
     }
