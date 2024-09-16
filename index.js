@@ -25,6 +25,7 @@ const firstUserArgNumber = parseInt(firstUserArg);
 // validate user entries making sure they only contain an int, up, num, or sym
 const validateUserArguments = (userArguments) => {
   console.log(userArguments);
+  let userArgsToBePassedToCustomPass = [];
   const validEntriesArray = ["up", "num", "sym"];
   const numberEntryExists = userArguments.find((arg) => !isNaN(parseInt(arg)));
   const validNumberExists = numberEntryExists !== undefined;
@@ -34,7 +35,29 @@ const validateUserArguments = (userArguments) => {
   const otherEntriesValid = argsWithoutNumberArray.every((entry) =>
     validEntriesArray.includes(entry)
   );
-  return otherEntriesValid ? true : false;
+
+  if (otherEntriesValid){
+
+  if (!validNumberExists) {
+    userArgsToBePassedToCustomPass.push(8);
+  } else {
+    userArgsToBePassedToCustomPass.push(parseInt(numberEntryExists));
+  }
+  if (userArguments.includes("up")) {
+    userArgsToBePassedToCustomPass.push("up");
+  }
+  if (userArguments.includes("num")) {
+    userArgsToBePassedToCustomPass.push("num");
+  }
+  if (userArguments.includes("sym")) {
+    userArgsToBePassedToCustomPass.push("sym");
+  }
+  createCustomPass(userArgsToBePassedToCustomPass)
+  }
+  else{
+    return false
+  }
+
 };
 
 // make a decision of the code customization
@@ -51,6 +74,10 @@ const createLowerCasePass = (length = 8) => {
   }
   console.log(alphabetsLower.length);
   console.log(lowCasePass);
+};
+
+const createCustomPass = (userArgs) => {
+  console.log("from custom pass function: ",userArgs)
 };
 
 const displayInstructionsToUser = () => {
@@ -109,13 +136,13 @@ if (
     if (userArguments.length === 0) {
       createLowerCasePass();
     } else {
-      if (userArguments[0] === "-h") {
+      if (userArguments.length === 1 && userArguments[0] === "-h") {
         displayInstructionsToUser();
       } else {
-        if (!validUserArguments) {
+        if (!validateUserArguments) {
           displayErrorMessage();
         } else {
-          if (userArguments.length > 1 && u) displayInstructionsToUser();
+          validateUserArguments(userArguments)
         }
       }
     }
