@@ -18,14 +18,14 @@ console.log(
 );
 
 // console.log(userArguments);
-console.log("from the global scope ", userArguments);
+// console.log("from the global scope ", userArguments);
 const firstUserArg = userArguments[0];
 const firstUserArgNumber = parseInt(firstUserArg);
 let userArgsToBePassedToCustomPass = [];
 
 // validate user entries making sure they only contain an int, up, num, or sym
 const validateUserArguments = (userArguments) => {
-  console.log("from validate user args function", userArguments);
+  // console.log("from validate user args function", userArguments);
   const validEntriesArray = ["up", "num", "sym"];
   const numberEntryExists = userArguments.find((arg) => !isNaN(parseInt(arg)));
   const validNumberExists = numberEntryExists !== undefined;
@@ -69,12 +69,36 @@ const createLowerCasePass = (length = 8) => {
     const randomLetter = alphabetsLower[randomLetterIndex];
     lowCasePass += randomLetter;
   }
-  console.log(alphabetsLower.length);
-  console.log(lowCasePass);
+  console.log(
+    "Your Generated Password of lower case letters is: ",
+    lowCasePass
+  );
 };
 
 const createCustomPass = (userArgs) => {
-  console.log("from custom pass function: ", userArgs);
+  let allowedPool = "abcdefghijklmnopqrstuvwxyz";
+  let customPass = "";
+  const alphabetsUpper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const numbers = "0123456789";
+  const symbols = "!@#$%^&*()_+[]{}|;:',.<>?/`~";
+  // console.log("from custom pass function: ", userArgs);
+  if (userArgs.includes("up")) {
+    allowedPool += alphabetsUpper;
+  }
+  if (userArgs.includes("num")) {
+    allowedPool += numbers;
+  }
+  if (userArgs.includes("sym")) {
+    allowedPool += symbols;
+  }
+
+  const passLength = userArgsToBePassedToCustomPass[0];
+  for (let i = 0; i < passLength; i++) {
+    const randomCharIndex = Math.floor(Math.random() * allowedPool.length);
+    const randomChar = allowedPool[randomCharIndex];
+    customPass += randomChar;
+  }
+  console.log("Your Generated Password is: ", customPass);
 };
 
 const displayInstructionsToUser = () => {
@@ -123,13 +147,7 @@ const displayErrorMessage = () => {
 };
 
 // if the user entered an invalid entry for character number
-if (
-  userArguments.length === 1 &&
-  isNaN(firstUserArgNumber) &&
-  userArguments[0] !== "-h"
-) {
-  displayErrorMessage();
-} else {
+
   // if the user entered only a number for charecters length
   if (userArguments.length === 1 && !isNaN(firstUserArgNumber)) {
     createLowerCasePass(userArguments);
@@ -149,4 +167,4 @@ if (
       }
     }
   }
-}
+
