@@ -22,6 +22,25 @@ console.log(userArguments);
 const firstUserArg = userArguments[0];
 const firstUserArgNumber = parseInt(firstUserArg);
 
+// validate user entries making sure they only contain an int, up, num, or sym
+const validateUserArguments = (userArguments) => {
+  console.log(userArguments);
+  const validEntriesArray = ["up", "num", "sym"];
+  const numberEntryExists = userArguments.find((arg) => !isNaN(parseInt(arg)));
+  const validNumberExists = numberEntryExists !== undefined;
+  const argsWithoutNumberArray = userArguments.filter((arg) =>
+    isNaN(parseInt(arg))
+  );
+  const otherEntriesValid = argsWithoutNumberArray.every((entry) =>
+    validEntriesArray.includes(entry)
+  );
+  return otherEntriesValid ? true : false;
+};
+
+// make a decision of the code customization
+
+// direct the code to the function that creates the specific customized code
+
 const createLowerCasePass = (length = 8) => {
   const alphabetsLower = "abcdefghijklmnopqrstuvwxyz";
   let lowCasePass = "";
@@ -49,22 +68,16 @@ const displayInstructionsToUser = () => {
     
     - Include uppercase letters:
         Example: 'npx pass-gen 12 up' (for a 12-character password with uppercase letters)
-        To exclude uppercase, use 'notup':
-        Example: 'npx pass-gen 12 notup'
-    
+
     - Include numbers:
         Example: 'npx pass-gen 12 num' (for a 12-character password with numbers)
-        To exclude numbers, use 'notnum':
-        Example: 'npx pass-gen 12 notnum'
 
     - Include symbols:
         Example: 'npx pass-gen 12 sym' (for a 12-character password with symbols)
-        To exclude symbols, use 'notsym':
-        Example: 'npx pass-gen 12 notsym'
 
     You can combine options for more customization:
-        Example: 'npx pass-gen 12 up num sym' (for a password with uppercase, numbers, and symbols)
-        Example: 'npx pass-gen 12 notup num' (for a password with numbers but no uppercase)`
+        Example: 'npx pass-gen 12 up num sym' (for a password with uppercase letters, numbers, and symbols)
+        Example: 'npx pass-gen 12 num' (for a password with numbers only, and lowercase letters)`
   );
 
   console.log("");
@@ -99,9 +112,10 @@ if (
       if (userArguments[0] === "-h") {
         displayInstructionsToUser();
       } else {
-        if (userArguments.length > 1) {
+        if (!validUserArguments) {
+          displayErrorMessage();
         } else {
-          displayInstructionsToUser()
+          if (userArguments.length > 1 && u) displayInstructionsToUser();
         }
       }
     }
